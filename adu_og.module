@@ -1,8 +1,7 @@
 <?php
 
 /*
- * D8 RESTRICT NODES TO THEIR OG AUDIENCE
- * rename MY_MODULE with your own module name
+ * D8 restrict OG content to their audience
  * TODO: Add access restrictions on per roles -> content-types attached to the OG
  */
 
