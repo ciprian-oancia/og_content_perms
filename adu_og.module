@@ -1,0 +1,43 @@
+<?php
+
+/*
+ * D8 RESTRICT NODES TO THEIR OG AUDIENCE
+ * rename MY_MODULE with your own module name
+ * TODO: Add access restrictions on per roles -> content-types attached to the OG
+ */
+
+
+use Drupal\Core\Session\AccountInterface;
+use Drupal\node\NodeInterface;
+use Drupal\Core\Access\AccessResult;
+
+/**
+ * Implements hook_node_access
+ * @param object $node - node object
+ * @param $op - The operation to be performed( Create, Delete, Update or View)
+ * @param object $account - user object
+ * To restrict access to node based on user roles.
+ */
+
+function adu_og_node_access(NodeInterface $node, $operation, AccountInterface $account) {
+  //we only work with content that is attached to an OG
+  if (!$node->hasField('og_audience')) {
+	return AccessResult::neutral();
+  }
+
+  //check if current user has subscribed to this OG and is active
+  $og_audience = $node->get('og_audience')->getValue();
+  $query = \Drupal::entityQuery('og_membership');
+  $query
+	->condition('uid', $account->id())
+	->condition('entity_id', $og_audience['0']['target_id'])
+	->condition('state', "active");
+  $count = $query
+	->range(0, 1)
+	->count()
+	->execute();
+//restrict audience for non (active) members
+  if (!$count) {
+	return AccessResult::forbidden();
+  }
+}

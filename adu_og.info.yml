@@ -1,0 +1,7 @@
+name: adu og
+type: module
+description: Restrict content access to audience only
+core: 8.x
+package: ADU
+dependencies:
+  - og

@@ -1,0 +1,9 @@
+{
+  "name": "drupal/adu_og",
+  "type": "drupal-module",
+  "description": "Restrict content to OG audience",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "minimum-stability": "dev",
+  "require": { }
+}
